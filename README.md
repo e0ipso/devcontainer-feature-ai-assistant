@@ -214,6 +214,10 @@ test/
 .github/
   workflows/
     test.yaml                   # CI: runs on push / PR
-    validate.yml                # CI: validates JSON schemas on PR
+    validate.yml                # CI: validates feature JSON on push/PR
     release.yaml                # publish to GHCR after CI succeeds on main
+  scripts/
+    list-feature-ids.sh         # discover src/* feature ids
+    make-ghcr-packages-public.sh
+    verify-ghcr-features.sh     # check GHCR major-version tags
 ```
