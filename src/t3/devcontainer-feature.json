@@ -102,7 +102,7 @@
     },
     "providersCursorEnabled": {
       "type": "boolean",
-      "default": true,
+      "default": false,
       "description": "Enable the Cursor agent provider."
     },
     "providersCursorBinaryPath": {

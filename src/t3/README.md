@@ -18,8 +18,7 @@ folder):
 
 Each option maps to a field in T3 Code's `ServerSettings` schema
 (`packages/contracts/src/settings.ts`). Option defaults match T3's decoded
-defaults, except `providers.cursor.enabled` is set to `true` so the Cursor
-agent works out of the box in this container.
+defaults.
 
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
@@ -42,7 +41,7 @@ agent works out of the box in this container.
 | `providersClaudeAgentBinaryPath` | string | `"claude"` | Path to the Claude binary |
 | `providersClaudeAgentHomePath` | string | `""` | Custom HOME for the Claude agent |
 | `providersClaudeAgentLaunchArgs` | string | `""` | Extra CLI args passed on session start |
-| `providersCursorEnabled` | boolean | `true` | Enable Cursor agent provider |
+| `providersCursorEnabled` | boolean | `false` | Enable Cursor agent provider |
 | `providersCursorBinaryPath` | string | `"agent"` | Path to the Cursor agent binary |
 | `providersCursorApiEndpoint` | string | `""` | Override the Cursor API endpoint |
 | `providersGrokEnabled` | boolean | `true` | Enable Grok provider |
@@ -54,7 +53,7 @@ agent works out of the box in this container.
 
 ## Examples
 
-Use defaults (all first-party providers enabled, Cursor enabled):
+Use defaults (Codex, Claude agent, Grok, and OpenCode enabled; Cursor disabled):
 
 ```jsonc
 "features": {

@@ -16,5 +16,6 @@ check "t3 binary exists" bash -c "command -v t3"
 check "t3 settings file written" test -f /usr/local/share/t3-devcontainer/settings.json
 check "settings.json is valid JSON" bash -c "node -e 'JSON.parse(require(\"fs\").readFileSync(\"/usr/local/share/t3-devcontainer/settings.json\"))'"
 check "default model instanceId is codex" bash -c "node -e 'const s=JSON.parse(require(\"fs\").readFileSync(\"/usr/local/share/t3-devcontainer/settings.json\")); process.exit(s.textGenerationModelSelection.instanceId===\"codex\"?0:1)'"
+check "cursor provider disabled by default" bash -c "node -e 'const s=JSON.parse(require(\"fs\").readFileSync(\"/usr/local/share/t3-devcontainer/settings.json\")); process.exit(s.providers.cursor.enabled===false?0:1)'"
 
 reportResults
