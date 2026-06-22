@@ -1,8 +1,0 @@
-{
-  "install_on_node24": {
-    "image": "node:24",
-    "features": {
-      "cursor": {}
-    }
-  }
-}
