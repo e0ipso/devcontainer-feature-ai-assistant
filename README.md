@@ -150,17 +150,17 @@ Features are independent and compose freely. A typical full-stack AI setup:
 ### One-time setup
 
 1. Fork or push this repo to GitHub.
-2. In **Settings → Actions → General**, ensure "Read and write permissions" is enabled for the `GITHUB_TOKEN`.
-3. After the first publish, go to **Packages** and set each feature package to **Public**.
+2. In **Settings → Actions → General**, enable **Read and write permissions** for the `GITHUB_TOKEN`.
+3. If the release workflow cannot set package visibility via the API, open each package under **Packages**, go to **Package settings**, and set visibility to **Public** (required for unauthenticated `devcontainer` pulls).
 
 ### Publish features
 
-After CI passes on `main`, the **"Release dev container features & generate documentation"** workflow publishes automatically. You can also run it manually from the Actions tab. It will:
+After CI passes on `main`, the **"Release dev container features"** workflow publishes automatically. You can also run it manually from the Actions tab. It will:
 
 1. Push each `src/<feature>/` directory as an OCI image to `ghcr.io/<owner>/devcontainer-feature-ai-assistant/<feature>`.
-2. Set each GHCR package visibility to **public** (required for unauthenticated pulls).
-3. Auto-generate documentation into each `src/<feature>/README.md`.
-4. Open a PR to commit the updated docs.
+2. Attempt to set each GHCR package visibility to **public**, then verify anonymous pulls succeed.
+
+Feature READMEs in `src/<feature>/README.md` are maintained by hand and are **not** overwritten by the release workflow.
 
 Until the release workflow has run at least once, `ghcr.io/<owner>/devcontainer-feature-ai-assistant/<feature>:1` references will fail with "Could not resolve Feature manifest".
 
@@ -205,7 +205,7 @@ src/
   <feature>/
     devcontainer-feature.json   # metadata & options schema
     install.sh                  # runs as root during image build
-    README.md                   # auto-updated by release workflow
+    README.md                   # hand-maintained feature docs
 test/
   <feature>/
     test.sh                     # default option smoke test
