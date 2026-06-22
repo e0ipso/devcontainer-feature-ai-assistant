@@ -1,44 +1,53 @@
 # Codex CLI (`codex`)
 
-Installs the [Codex](https://chatgpt.com/codex) CLI into the dev container.
+Installs the [OpenAI Codex CLI](https://github.com/openai/codex) (`codex`) via `npm install -g @openai/codex`.
 
 ## Usage
 
-Referenced locally from `devcontainer.json` (relative to the `.devcontainer/`
-folder):
+Add to `.devcontainer/devcontainer.json`:
 
 ```jsonc
-"features": {
-  "./features/codex": {}
+{
+  "image": "node:24",
+  "features": {
+    "ghcr.io/<owner>/devcontainer-feature-ai-assistant/codex:1": {}
+  }
 }
 ```
 
-## Notes
+Replace `<owner>` with the GitHub user or org that publishes this collection.
 
-- Installed to the shared npm prefix `/usr/local/share/npm-global`; add its
-  `bin` to `PATH` (the project's `devcontainer.json` does this via `remoteEnv`).
-- The install runs non-interactively and targets the shared npm prefix so the
-  binary is visible at runtime.
+## Requirements
 
-## Project mounts
+- Node.js in the base image, or `ghcr.io/devcontainers/features/node` (declared via `installsAfter`).
 
-The project's `devcontainer.json` mounts Codex configuration read-only and seeds
-credentials into a writable runtime location on start.
+## What it installs
 
-| Host path | Container path | Mode |
-| --------- | -------------- | ---- |
-| `~/.codex/prompts` | `/home/node/.codex/prompts` | read-only bind |
-| `~/.codex/auth.json` | `/home/node/.cred-seed/codex/auth.json` | read-only seed bind |
+- Binary: `codex`
+- Location: `/usr/local/share/npm-global/bin`
+- Installed as the remote (non-root) user during image build
+- `PATH` is set automatically via feature `containerEnv`
 
-`.devcontainer/scripts/seed-auth.sh` copies the credential seed bind into the
-writable runtime path on container start. This keeps the host credential file
-read-only while allowing Codex to update its own runtime state.
+## Options
 
-## Making this reusable across projects
+None.
 
-This is currently a **local** Feature. To reuse it across repositories, move
-this folder into a dedicated Feature repo (`src/codex/`), scaffolded from
-[`devcontainers/feature-starter`](https://github.com/devcontainers/feature-starter),
-publish it to GHCR, and reference it as
-`ghcr.io/<owner>/devcontainer-features/codex:1`. Remember to flip the
-published GHCR package to **public**.
+## Authentication
+
+Set `OPENAI_API_KEY` in `remoteEnv`, or run `codex` interactively after the container starts to sign in.
+
+## Verify
+
+```bash
+codex --version
+```
+
+## Local development
+
+From this repo root:
+
+```bash
+devcontainer features test -f codex .
+```
+
+See the [repository README](../../README.md) for publishing and combining features.

@@ -1,46 +1,53 @@
-# Cursor CLI (`cursor`)
+# Cursor CLI (command: `agent`)
 
-Installs the [Cursor](https://cursor.com/) CLI (`agent`) into the dev container.
+Installs the [Cursor](https://cursor.com/) agent CLI via the official shell installer.
 
 ## Usage
 
-Referenced locally from `devcontainer.json` (relative to the `.devcontainer/`
-folder):
+Add to `.devcontainer/devcontainer.json`:
 
 ```jsonc
-"features": {
-  "./features/cursor": {}
+{
+  "image": "node:24",
+  "features": {
+    "ghcr.io/<owner>/devcontainer-feature-ai-assistant/cursor:1": {}
+  }
 }
 ```
 
-## Notes
+Replace `<owner>` with the GitHub user or org that publishes this collection.
 
-- Installed to the user's local bin and a shared, user-writable npm prefix
-  (`/usr/local/share/npm-global`). Add both to `PATH` (the project's
-  `devcontainer.json` does this via `remoteEnv`).
-- The installer runs as the remote (non-root) user so artifacts are visible at
-  runtime rather than landing in root's home.
-- The installed command is `agent` rather than `cursor`.
+## Requirements
 
-## Project mounts
+- Node.js in the base image, or `ghcr.io/devcontainers/features/node` (declared via `installsAfter`).
 
-The project's `devcontainer.json` mounts Cursor configuration read-only and seeds
-credentials into a writable runtime location on start.
+## What it installs
 
-| Host path | Container path | Mode |
-| --------- | -------------- | ---- |
-| `~/.cursor/cli-config.json` | `/home/node/.cursor/cli-config.json` | read-only bind |
-| `~/.config/cursor/auth.json` | `/home/node/.cred-seed/cursor/auth.json` | read-only seed bind |
+- Command: `agent` (not `cursor`)
+- Install method: `https://cursor.com/install` (runs as the remote user)
+- Location: `/usr/local/share/npm-global/bin` (symlinks from `~/.local/bin` are linked into the same prefix)
+- `PATH` is set automatically via feature `containerEnv`
 
-`.devcontainer/scripts/seed-auth.sh` copies the credential seed bind into the
-writable runtime path on container start. This keeps the host credential file
-read-only while allowing Cursor to update its own runtime state.
+## Options
 
-## Making this reusable across projects
+None.
 
-This is currently a **local** Feature. To reuse it across repositories, move
-this folder into a dedicated Feature repo (`src/cursor/`), scaffolded from
-[`devcontainers/feature-starter`](https://github.com/devcontainers/feature-starter),
-publish it to GHCR, and reference it as
-`ghcr.io/<owner>/devcontainer-features/cursor:1`. Remember to flip the
-published GHCR package to **public**.
+## Authentication
+
+Run `agent login` after the container starts, or set `CURSOR_API_KEY` in `remoteEnv`. See [Cursor CLI configuration](https://cursor.com/docs/cli/reference/configuration) for config file locations.
+
+## Verify
+
+```bash
+command -v agent
+```
+
+## Local development
+
+From this repo root:
+
+```bash
+devcontainer features test -f cursor .
+```
+
+See the [repository README](../../README.md) for publishing and combining features.

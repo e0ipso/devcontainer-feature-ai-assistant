@@ -1,49 +1,53 @@
 # OpenCode CLI (`opencode`)
 
-Installs the [OpenCode](https://opencode.ai/) CLI into the dev container.
+Installs the [OpenCode](https://opencode.ai/) CLI via the official shell installer.
 
 ## Usage
 
-Referenced locally from `devcontainer.json` (relative to the `.devcontainer/`
-folder):
+Add to `.devcontainer/devcontainer.json`:
 
 ```jsonc
-"features": {
-  "./features/opencode": {}
+{
+  "image": "node:24",
+  "features": {
+    "ghcr.io/<owner>/devcontainer-feature-ai-assistant/opencode:1": {}
+  }
 }
 ```
 
-## Notes
+Replace `<owner>` with the GitHub user or org that publishes this collection.
 
-- Installed to the user's local bin and a shared, user-writable npm prefix
-  (`/usr/local/share/npm-global`). Add both to `PATH` (the project's
-  `devcontainer.json` does this via `remoteEnv`).
-- The installer runs as the remote (non-root) user so artifacts are visible at
-  runtime rather than landing in root's home.
+## Requirements
 
-## Project mounts
+- Node.js in the base image, or `ghcr.io/devcontainers/features/node` (declared via `installsAfter`).
 
-The project's `devcontainer.json` keeps OpenCode runtime state writable while
-seeding credentials from a read-only host copy.
+## What it installs
 
-| Host path or volume | Container path | Mode |
-| ------------------- | -------------- | ---- |
-| `~/.config/opencode/opencode.jsonc` | `/home/node/.config/opencode/opencode.jsonc` | read-only bind |
-| `~/.config/opencode/plugin` | `/home/node/.config/opencode/plugin` | read-only bind |
-| `~/.config/opencode/node_modules` | `/home/node/.config/opencode/node_modules` | read-only bind |
-| `~/.cache/opencode` | `/home/node/.cache/opencode` | writable bind |
-| `opencode-data-${devcontainerId}` | `/home/node/.local/share/opencode` | writable volume |
-| `~/.local/share/opencode/auth.json` | `/home/node/.cred-seed/opencode/auth.json` | read-only seed bind |
+- Binary: `opencode`
+- Install method: `https://opencode.ai/install` (runs as the remote user)
+- Location: `/usr/local/share/npm-global/bin` (symlinks from `~/.local/bin` are linked into the same prefix)
+- `PATH` is set automatically via feature `containerEnv`
 
-`.devcontainer/scripts/seed-auth.sh` copies the credential seed bind into the
-writable runtime path on container start. This keeps the host credential file
-read-only while allowing OpenCode to update its own runtime state.
+## Options
 
-## Making this reusable across projects
+None.
 
-This is currently a **local** Feature. To reuse it across repositories, move
-this folder into a dedicated Feature repo (`src/opencode/`), scaffolded from
-[`devcontainers/feature-starter`](https://github.com/devcontainers/feature-starter),
-publish it to GHCR, and reference it as
-`ghcr.io/<owner>/devcontainer-features/opencode:1`. Remember to flip the
-published GHCR package to **public**.
+## Authentication
+
+Run `opencode` after the container starts to sign in interactively.
+
+## Verify
+
+```bash
+command -v opencode
+```
+
+## Local development
+
+From this repo root:
+
+```bash
+devcontainer features test -f opencode .
+```
+
+See the [repository README](../../README.md) for publishing and combining features.

@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      features: ${{ steps.list.outputs.features }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - run: npm install -g @devcontainers/cli
+      - run: devcontainer features package -f -o /tmp/devcontainer-feature-package ./src
+      - id: list
+        run: echo "features=$(bash .github/scripts/list-feature-ids.sh . | jq -R -s -c 'split("\n") | map(select(length > 0))')" >> "$GITHUB_OUTPUT"
+
+  test:
+    needs: validate
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        feature: ${{ fromJson(needs.validate.outputs.features) }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - run: npm install -g @devcontainers/cli
+      - run: devcontainer features test -f ${{ matrix.feature }} -i node:24 .
+
+  test-global:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - run: npm install -g @devcontainers/cli
+      - run: devcontainer features test --global-scenarios-only .
+
+  release:
+    needs: [validate, test, test-global]
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: devcontainers/action@v1
+        with:
+          publish-features: "true"
+          base-path-to-features: "./src"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: bash .github/scripts/post-publish-ghcr.sh .

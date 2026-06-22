@@ -1,42 +1,48 @@
 # GitHub Copilot CLI (`copilot`)
 
-Installs the [GitHub Copilot](https://github.com/features/copilot) CLI into the
-dev container.
+Installs the [GitHub Copilot CLI](https://github.com/github/copilot-cli) (`@github/copilot`) globally via npm.
 
 ## Usage
 
-Referenced locally from `devcontainer.json` (relative to the `.devcontainer/`
-folder):
+Add to `.devcontainer/devcontainer.json`:
 
 ```jsonc
-"features": {
-  "./features/copilot": {}
+{
+  "image": "node:24",
+  "features": {
+    "ghcr.io/<owner>/devcontainer-feature-ai-assistant/copilot:1": {}
+  }
 }
 ```
 
-## Notes
+Replace `<owner>` with the GitHub user or org that publishes this collection.
 
-- Installed to the shared npm prefix `/usr/local/share/npm-global`; add its
-  `bin` to `PATH` (the project's `devcontainer.json` does this via `remoteEnv`).
-- The install runs as the remote (non-root) user so the binary is visible at
-  runtime rather than landing in root's home.
-- Authentication relies on the GitHub CLI (`gh`) being logged in. The project's
-  `devcontainer.json` mounts `~/.config/gh/hosts.yml` for this.
+## Requirements
 
-## Project mounts
+- Node.js in the base image, or `ghcr.io/devcontainers/features/node` (declared via `installsAfter`).
+- Declares `installsAfter` on `github-cli` for GitHub authentication.
 
-The project's `devcontainer.json` mounts Copilot configuration read-only.
+## What it installs
 
-| Host path | Container path | Mode |
-| --------- | -------------- | ---- |
-| `~/.copilot/config.json` | `/home/node/.copilot/config.json` | read-only bind |
-| `~/.copilot/hooks` | `/home/node/.copilot/hooks` | read-only bind |
+- Binary: `copilot`
+- Location: `/usr/local/share/npm-global/bin`
+- Installed as the remote (non-root) user during image build
+- `PATH` is set automatically via feature `containerEnv`
 
-## Making this reusable across projects
+## Options
 
-This is currently a **local** Feature. To reuse it across repositories, move
-this folder into a dedicated Feature repo (`src/copilot/`), scaffolded from
-[`devcontainers/feature-starter`](https://github.com/devcontainers/feature-starter),
-publish it to GHCR, and reference it as
-`ghcr.io/<owner>/devcontainer-features/copilot:1`. Remember to flip the
-published GHCR package to **public**.
+None.
+
+## Authentication
+
+Copilot uses GitHub credentials. Run `gh auth login` inside the container, or bind-mount host `~/.config/gh` to reuse credentials from your machine.
+
+## Local development
+
+From this repo root:
+
+```bash
+devcontainer features test -f copilot .
+```
+
+See the [repository README](../../README.md) for publishing and combining features.
