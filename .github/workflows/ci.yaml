@@ -55,12 +55,12 @@ jobs:
     permissions:
       packages: write
       contents: write
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v6
       - uses: devcontainers/action@v1
         with:
           publish-features: "true"
           base-path-to-features: "./src"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: bash .github/scripts/post-publish-ghcr.sh .
