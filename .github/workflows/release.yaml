@@ -24,12 +24,8 @@ jobs:
         with:
           publish-features: "true"
           base-path-to-features: "./src"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Make published packages public"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           owner="${GITHUB_REPOSITORY_OWNER}"
