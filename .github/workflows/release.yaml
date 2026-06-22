@@ -2,10 +2,16 @@ name: "Release dev container features & generate documentation"
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: ["CI - Test features"]
+    types: [completed]
+    branches: [main]
 
 jobs:
   deploy:
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -23,19 +29,43 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: "Make published packages public"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          namespace="devcontainer-feature-ai-assistant"
+          packages=(
+            "${namespace}"
+            "${namespace}/claude"
+            "${namespace}/codex"
+            "${namespace}/copilot"
+            "${namespace}/cursor"
+            "${namespace}/opencode"
+            "${namespace}/t3"
+          )
+          for package in "${packages[@]}"; do
+            encoded="${package//\//%2F}"
+            echo "Setting visibility=public for ${package}"
+            gh api --method PATCH \
+              -H "Accept: application/vnd.github+json" \
+              "/user/packages/container/${encoded}" \
+              -f visibility=public || echo "Warning: could not set ${package} to public (may already be public or not yet created)"
+          done
+
       - name: "Create PR for documentation"
         id: push_image_info
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -e
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git config pull.rebase false
           branch=automated-documentation-update-$GITHUB_RUN_ID
-          git checkout -b $branch
+          git checkout -b "$branch"
           message='Automated documentation update'
-          git add */*/README.md
+          git add src/*/README.md
           git commit -m 'Automated documentation update [skip ci]' || export NO_UPDATES=true
           if [ "$NO_UPDATES" != "true" ] ; then
             git push origin "$branch"

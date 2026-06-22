@@ -155,11 +155,14 @@ Features are independent and compose freely. A typical full-stack AI setup:
 
 ### Publish features
 
-Run the **"Release dev container features & generate documentation"** workflow from the Actions tab (or push to `main` and trigger it manually). It will:
+After CI passes on `main`, the **"Release dev container features & generate documentation"** workflow publishes automatically. You can also run it manually from the Actions tab. It will:
 
 1. Push each `src/<feature>/` directory as an OCI image to `ghcr.io/<owner>/devcontainer-feature-ai-assistant/<feature>`.
-2. Auto-generate documentation into each `src/<feature>/README.md`.
-3. Open a PR to commit the updated docs.
+2. Set each GHCR package visibility to **public** (required for unauthenticated pulls).
+3. Auto-generate documentation into each `src/<feature>/README.md`.
+4. Open a PR to commit the updated docs.
+
+Until the release workflow has run at least once, `ghcr.io/<owner>/devcontainer-feature-ai-assistant/<feature>:1` references will fail with "Could not resolve Feature manifest".
 
 ### Versioning
 
@@ -213,5 +216,5 @@ test/
   workflows/
     test.yaml                   # CI: runs on push / PR
     validate.yml                # CI: validates JSON schemas on PR
-    release.yaml                # manual: publish to GHCR
+    release.yaml                # publish to GHCR after CI succeeds on main
 ```
