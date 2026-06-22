@@ -23,6 +23,9 @@ jobs:
           - node:24
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
       - name: "Install latest devcontainer CLI"
         run: npm install -g @devcontainers/cli
       - name: "Test '${{ matrix.features }}' against '${{ matrix.baseImage }}'"
@@ -41,6 +44,9 @@ jobs:
           - t3
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
       - name: "Install latest devcontainer CLI"
         run: npm install -g @devcontainers/cli
       - name: "Test '${{ matrix.features }}' scenarios"
@@ -50,6 +56,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
       - name: "Install latest devcontainer CLI"
         run: npm install -g @devcontainers/cli
       - name: "Test global scenarios"

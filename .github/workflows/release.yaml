@@ -19,11 +19,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: "Publish features"
-        uses: devcontainers/action@v1
+      - uses: actions/setup-node@v4
         with:
-          publish-features: "true"
-          base-path-to-features: "./src"
+          node-version: 24
+
+      - name: "Install devcontainer CLI"
+        run: npm install -g @devcontainers/cli
+
+      - name: "Publish features"
+        run: devcontainer features publish -r ghcr.io -n "${{ github.repository }}" ./src
         env:
           GITHUB_TOKEN: ${{ github.token }}
 

@@ -9,8 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: "Validate devcontainer-feature.json files"
-        uses: devcontainers/action@v1
+      - uses: actions/setup-node@v4
         with:
-          validate-only: "true"
-          base-path-to-features: "./src"
+          node-version: 24
+      - name: "Install latest devcontainer CLI"
+        run: npm install -g @devcontainers/cli
+      - name: "Validate devcontainer-feature.json files"
+        run: devcontainer features package -f -o /tmp/devcontainer-feature-package ./src

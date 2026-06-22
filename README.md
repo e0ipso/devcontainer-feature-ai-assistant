@@ -194,8 +194,7 @@ devcontainer features test -f t3 -i node:24 .
 ### Validate feature JSON
 
 ```bash
-# Uses the devcontainers/action validator locally via the CLI
-devcontainer features validate --base-path-to-features ./src
+devcontainer features package -f -o /tmp/devcontainer-feature-package ./src
 ```
 
 ### Project structure
