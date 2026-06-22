@@ -9,7 +9,8 @@ owner="${GITHUB_REPOSITORY_OWNER:?GITHUB_REPOSITORY_OWNER is required}"
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 packages=("${namespace}")
 
-for feature in "$("${script_dir}/list-feature-ids.sh" "${repo_root}")"; do
+mapfile -t features < <("${script_dir}/list-feature-ids.sh" "${repo_root}")
+for feature in "${features[@]}"; do
   packages+=("${namespace}/${feature}")
 done
 

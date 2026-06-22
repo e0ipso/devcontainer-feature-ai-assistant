@@ -9,7 +9,8 @@ namespace="${2:-devcontainer-feature-ai-assistant}"
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 failed=0
 
-for feature in "$("${script_dir}/list-feature-ids.sh" "${repo_root}")"; do
+mapfile -t features < <("${script_dir}/list-feature-ids.sh" "${repo_root}")
+for feature in "${features[@]}"; do
   version="$(jq -r .version "${repo_root}/src/${feature}/devcontainer-feature.json")"
   major="${version%%.*}"
   image="${namespace}/${feature}"
