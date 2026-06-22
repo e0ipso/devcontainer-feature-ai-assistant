@@ -1,0 +1,22 @@
+{
+  "claude_and_t3": {
+    "image": "node:24",
+    "features": {
+      "claude": {},
+      "t3": {
+        "providersClaudeAgentEnabled": true,
+        "textGenerationModelSelectionInstanceId": "claudeAgent"
+      }
+    }
+  },
+  "codex_and_t3": {
+    "image": "node:24",
+    "features": {
+      "codex": {},
+      "t3": {
+        "providersCodexEnabled": true,
+        "textGenerationModelSelectionInstanceId": "codex"
+      }
+    }
+  }
+}

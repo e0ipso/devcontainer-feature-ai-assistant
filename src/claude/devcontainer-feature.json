@@ -1,0 +1,14 @@
+{
+  "id": "claude",
+  "version": "1.0.0",
+  "name": "Claude Code CLI",
+  "description": "Installs the Claude Code CLI into the dev container.",
+  "containerEnv": {
+    "PATH": "${containerEnv:PATH}:/usr/local/share/npm-global/bin:/home/node/.local/bin"
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils",
+    "ghcr.io/devcontainers/features/node",
+    "ghcr.io/devcontainers/features/github-cli"
+  ]
+}

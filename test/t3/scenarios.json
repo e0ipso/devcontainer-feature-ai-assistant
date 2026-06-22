@@ -1,0 +1,12 @@
+{
+  "with_claude_provider": {
+    "image": "node:24",
+    "features": {
+      "t3": {
+        "textGenerationModelSelectionInstanceId": "claudeAgent",
+        "textGenerationModelSelectionModel": "claude-sonnet-4-6",
+        "enableAssistantStreaming": true
+      }
+    }
+  }
+}

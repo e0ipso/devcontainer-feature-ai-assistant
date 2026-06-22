@@ -1,0 +1,14 @@
+{
+  "id": "copilot",
+  "version": "1.0.0",
+  "name": "GitHub Copilot CLI",
+  "description": "Installs the GitHub Copilot CLI into the dev container.",
+  "containerEnv": {
+    "PATH": "${containerEnv:PATH}:/usr/local/share/npm-global/bin:/home/node/.local/bin"
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils",
+    "ghcr.io/devcontainers/features/node",
+    "ghcr.io/devcontainers/features/github-cli"
+  ]
+}

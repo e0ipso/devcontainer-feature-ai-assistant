@@ -1,0 +1,156 @@
+{
+  "id": "t3",
+  "version": "2.0.0",
+  "name": "t3 CLI",
+  "description": "Installs the t3 CLI globally via npm and seeds server settings derived from the T3 Code ServerSettings schema.",
+  "options": {
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "npm dist-tag or version of t3 to install (e.g. \"latest\" or \"1.2.3\")"
+    },
+    "enableAssistantStreaming": {
+      "type": "boolean",
+      "default": false,
+      "description": "Stream assistant responses."
+    },
+    "enableProviderUpdateChecks": {
+      "type": "boolean",
+      "default": true,
+      "description": "Check for provider CLI updates."
+    },
+    "automaticGitFetchInterval": {
+      "type": "string",
+      "default": "30000",
+      "description": "Git fetch interval in milliseconds."
+    },
+    "defaultThreadEnvMode": {
+      "type": "string",
+      "enum": ["local", "worktree"],
+      "default": "local",
+      "description": "Default thread environment mode."
+    },
+    "newWorktreesStartFromOrigin": {
+      "type": "boolean",
+      "default": false,
+      "description": "New worktrees start from origin."
+    },
+    "addProjectBaseDirectory": {
+      "type": "string",
+      "default": "",
+      "description": "Additional project base directory."
+    },
+    "textGenerationModelSelectionInstanceId": {
+      "type": "string",
+      "default": "codex",
+      "description": "Default text-generation model provider instance id."
+    },
+    "textGenerationModelSelectionModel": {
+      "type": "string",
+      "default": "gpt-5.4-mini",
+      "description": "Default text-generation model name."
+    },
+    "observabilityOtlpTracesUrl": {
+      "type": "string",
+      "default": "",
+      "description": "OTLP traces endpoint URL."
+    },
+    "observabilityOtlpMetricsUrl": {
+      "type": "string",
+      "default": "",
+      "description": "OTLP metrics endpoint URL."
+    },
+    "providersCodexEnabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable the Codex provider."
+    },
+    "providersCodexBinaryPath": {
+      "type": "string",
+      "default": "codex",
+      "description": "Path to the Codex binary."
+    },
+    "providersCodexHomePath": {
+      "type": "string",
+      "default": "",
+      "description": "Custom CODEX_HOME path."
+    },
+    "providersCodexShadowHomePath": {
+      "type": "string",
+      "default": "",
+      "description": "Account-specific shadow Codex home path."
+    },
+    "providersClaudeAgentEnabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable the Claude agent provider."
+    },
+    "providersClaudeAgentBinaryPath": {
+      "type": "string",
+      "default": "claude",
+      "description": "Path to the Claude binary."
+    },
+    "providersClaudeAgentHomePath": {
+      "type": "string",
+      "default": "",
+      "description": "Custom HOME used when running the Claude agent."
+    },
+    "providersClaudeAgentLaunchArgs": {
+      "type": "string",
+      "default": "",
+      "description": "Additional CLI arguments passed on Claude session start."
+    },
+    "providersCursorEnabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable the Cursor agent provider."
+    },
+    "providersCursorBinaryPath": {
+      "type": "string",
+      "default": "agent",
+      "description": "Path to the Cursor agent binary."
+    },
+    "providersCursorApiEndpoint": {
+      "type": "string",
+      "default": "",
+      "description": "Override the Cursor API endpoint."
+    },
+    "providersGrokEnabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable the Grok provider."
+    },
+    "providersGrokBinaryPath": {
+      "type": "string",
+      "default": "grok",
+      "description": "Path to the Grok CLI binary."
+    },
+    "providersOpenCodeEnabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable the OpenCode provider."
+    },
+    "providersOpenCodeBinaryPath": {
+      "type": "string",
+      "default": "opencode",
+      "description": "Path to the OpenCode binary."
+    },
+    "providersOpenCodeServerUrl": {
+      "type": "string",
+      "default": "",
+      "description": "OpenCode server URL. Leave blank to let t3 spawn the server."
+    },
+    "providersOpenCodeServerPassword": {
+      "type": "string",
+      "default": "",
+      "description": "OpenCode server password. Stored in plain text on disk."
+    }
+  },
+  "containerEnv": {
+    "PATH": "${containerEnv:PATH}:/usr/local/share/npm-global/bin:/home/node/.local/bin"
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils",
+    "ghcr.io/devcontainers/features/node"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "Devcontainer Feature AI Assistant",
+  "runArgs": [
+    "--hostname=devcontainer-feature-ai-assistant"
+  ],
+  "image": "node:24",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "json.schemas": [
+          {
+            "fileMatch": [
+              "*/devcontainer-feature.json"
+            ],
+            "url": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainerFeature.schema.json"
+          }
+        ]
+      },
+      "extensions": [
+        "mads-hartmann.bash-ide-vscode"
+      ]
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "remoteUser": "node",
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/home/node/.npm-global/bin"
+  },
+  "updateContentCommand": "npm config set prefix '/home/node/.npm-global' && npm install -g @devcontainers/cli"
+}
