@@ -29,5 +29,5 @@ run_as_user() {
 }
 
 echo "==> Installing Codex"
-run_as_user "curl -fsSL https://chatgpt.com/codex/install.sh | CODEX_NON_INTERACTIVE=1 CODEX_INSTALL_DIR='${NPM_PREFIX}/bin' sh"
+run_as_user 'npm install -g @openai/codex'
 echo "==> Codex installed."

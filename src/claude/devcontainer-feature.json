@@ -4,7 +4,7 @@
   "name": "Claude Code CLI",
   "description": "Installs the Claude Code CLI into the dev container.",
   "containerEnv": {
-    "PATH": "${containerEnv:PATH}:/usr/local/share/npm-global/bin:/home/node/.local/bin"
+    "PATH": "/usr/local/share/npm-global/bin:$PATH"
   },
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils",
