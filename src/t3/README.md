@@ -127,5 +127,5 @@ This is currently a **local** Feature. To reuse it across repositories, move
 this folder into a dedicated Feature repo (`src/t3/`), scaffolded from
 [`devcontainers/feature-starter`](https://github.com/devcontainers/feature-starter),
 publish it to GHCR, and reference it as
-`ghcr.io/<owner>/devcontainer-features/t3:2`. Remember to flip the published
+`ghcr.io/<owner>/devcontainer-features/t3:1`. Remember to flip the published
 GHCR package to **public**.

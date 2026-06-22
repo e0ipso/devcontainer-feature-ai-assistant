@@ -1,6 +1,6 @@
 {
   "id": "t3",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "name": "t3 CLI",
   "description": "Installs the t3 CLI globally via npm and seeds server settings derived from the T3 Code ServerSettings schema.",
   "options": {
