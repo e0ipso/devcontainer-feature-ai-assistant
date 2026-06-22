@@ -34,36 +34,37 @@ jobs:
           set -euo pipefail
           owner="${GITHUB_REPOSITORY_OWNER}"
           namespace="devcontainer-feature-ai-assistant"
-          failed=0
+          packages=(
+            "${namespace}"
+            "${namespace}/claude"
+            "${namespace}/codex"
+            "${namespace}/copilot"
+            "${namespace}/cursor"
+            "${namespace}/opencode"
+            "${namespace}/t3"
+          )
 
-          packages="$(gh api "/user/packages?package_type=container" --paginate --jq '.[].name' | grep "^${namespace}" || true)"
-          if [ -z "${packages}" ]; then
-            echo "No ${namespace} container packages found for the authenticated user."
-            exit 1
-          fi
-
-          for package in ${packages}; do
+          for package in "${packages[@]}"; do
             encoded="${package//\//%2F}"
+            settings_url="https://github.com/users/${owner}/packages/container/${encoded}/settings"
+
             visibility="$(gh api "/user/packages/container/${encoded}" --jq .visibility)"
-            if [ "${visibility}" = "public" ]; then
-              echo "✓ ${package} is already public"
-              continue
+            if [ "${visibility}" != "public" ]; then
+              echo "Setting visibility=public for ${package}"
+              gh api --method PATCH \
+                -H "Accept: application/vnd.github+json" \
+                "/user/packages/container/${encoded}" \
+                --input - <<< '{"visibility":"public"}'
+              visibility="$(gh api "/user/packages/container/${encoded}" --jq .visibility)"
             fi
 
-            echo "Setting visibility=public for ${package}"
-            if ! gh api --method PATCH \
-              -H "Accept: application/vnd.github+json" \
-              "/user/packages/container/${encoded}" \
-              --input - <<< '{"visibility":"public"}'; then
-              echo "::error::Could not set ${package} to public. Open package settings and set visibility to Public:"
-              echo "https://github.com/users/${owner}/packages/container/${encoded}/settings"
-              failed=1
+            if [ "${visibility}" != "public" ]; then
+              echo "::error title=Package is not public::${package} visibility is '${visibility}', expected 'public'. Set it manually: ${settings_url}"
+              exit 1
             fi
+
+            echo "✓ ${package} is public"
           done
-
-          if [ "${failed}" -ne 0 ]; then
-            exit 1
-          fi
 
       - name: "Verify features are publicly pullable"
         run: |
