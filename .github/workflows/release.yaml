@@ -16,6 +16,9 @@ jobs:
     permissions:
       packages: write
       contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GITHUB_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
 
@@ -28,8 +31,6 @@ jobs:
 
       - name: "Publish features"
         run: devcontainer features publish -r ghcr.io -n "${{ github.repository }}" ./src
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
 
       - name: "Make published packages public"
         run: |
