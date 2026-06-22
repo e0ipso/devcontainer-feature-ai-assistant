@@ -77,6 +77,8 @@ jobs:
           failed=0
 
           for feature in claude codex copilot cursor opencode t3; do
+            version="$(jq -r .version "src/${feature}/devcontainer-feature.json")"
+            major="${version%%.*}"
             image="${namespace}/${feature}"
             token="$(curl -fsSL "https://ghcr.io/token?scope=repository:${owner}/${image}:pull" | jq -r .token)"
             if [ -z "${token}" ] || [ "${token}" = "null" ]; then
@@ -86,13 +88,13 @@ jobs:
             fi
 
             status="$(curl -sS -o /dev/null -w "%{http_code}" \
-              "https://ghcr.io/v2/${owner}/${image}/manifests/1" \
+              "https://ghcr.io/v2/${owner}/${image}/manifests/${major}" \
               -H "Authorization: Bearer ${token}" \
               -H "Accept: application/vnd.oci.image.manifest.v1+json")"
             if [ "${status}" = "200" ]; then
-              echo "✓ ghcr.io/${owner}/${image}:1 is pullable"
+              echo "✓ ghcr.io/${owner}/${image}:${major} is pullable"
             else
-              echo "::error::ghcr.io/${owner}/${image}:1 returned HTTP ${status} (expected 200)"
+              echo "::error::ghcr.io/${owner}/${image}:${major} returned HTTP ${status} (expected 200)"
               failed=1
             fi
           done

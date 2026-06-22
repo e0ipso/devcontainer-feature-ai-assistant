@@ -29,7 +29,7 @@ Add a `features` block to your project's `.devcontainer/devcontainer.json`:
     "ghcr.io/<owner>/devcontainer-feature-ai-assistant/copilot:1": {},
     "ghcr.io/<owner>/devcontainer-feature-ai-assistant/cursor:1": {},
     "ghcr.io/<owner>/devcontainer-feature-ai-assistant/opencode:1": {},
-    "ghcr.io/<owner>/devcontainer-feature-ai-assistant/t3:1": {}
+    "ghcr.io/<owner>/devcontainer-feature-ai-assistant/t3:2": {}
   }
 }
 ```
@@ -109,7 +109,7 @@ No options.
 Installs the [t3](https://t3.chat/) CLI globally via npm and writes a pre-seeded `settings.json` to `/usr/local/share/t3-devcontainer/settings.json`. Your container's `postStartCommand` can copy or symlink this file to the path t3 expects.
 
 ```jsonc
-"ghcr.io/<owner>/devcontainer-feature-ai-assistant/t3:1": {
+"ghcr.io/<owner>/devcontainer-feature-ai-assistant/t3:2": {
   "version": "latest",
   "textGenerationModelSelectionInstanceId": "claudeAgent",
   "textGenerationModelSelectionModel": "claude-sonnet-4-6",
@@ -132,7 +132,7 @@ Features are independent and compose freely. A typical full-stack AI setup:
   "image": "node:24",
   "features": {
     "ghcr.io/<owner>/devcontainer-feature-ai-assistant/claude:1": {},
-    "ghcr.io/<owner>/devcontainer-feature-ai-assistant/t3:1": {
+    "ghcr.io/<owner>/devcontainer-feature-ai-assistant/t3:2": {
       "providersClaudeAgentEnabled": true,
       "textGenerationModelSelectionInstanceId": "claudeAgent"
     }
