@@ -29,17 +29,20 @@ run_as_user() {
     "export NPM_CONFIG_PREFIX='${NPM_PREFIX}' PATH=\"${NPM_PREFIX}/bin:${USER_HOME}/.local/bin:\$PATH\"; $1"
 }
 
-link_user_local_bins_to_npm_prefix() {
-  if [ -d "${USER_HOME}/.local/bin" ]; then
-    for bin in "${USER_HOME}/.local/bin"/*; do
-      if [ -e "$bin" ]; then
-        ln -sf "$bin" "${NPM_PREFIX}/bin/$(basename "$bin")"
-      fi
-    done
-  fi
+link_user_bins_to_npm_prefix() {
+  local bin_dir
+  for bin_dir in "${USER_HOME}/.local/bin" "${USER_HOME}/.opencode/bin"; do
+    if [ -d "${bin_dir}" ]; then
+      for bin in "${bin_dir}"/*; do
+        if [ -e "$bin" ]; then
+          ln -sf "$bin" "${NPM_PREFIX}/bin/$(basename "$bin")"
+        fi
+      done
+    fi
+  done
 }
 
 echo "==> Installing OpenCode"
 run_as_user 'curl -fsSL https://opencode.ai/install | bash'
-link_user_local_bins_to_npm_prefix
+link_user_bins_to_npm_prefix
 echo "==> OpenCode installed."
