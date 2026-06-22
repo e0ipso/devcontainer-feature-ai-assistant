@@ -9,7 +9,7 @@ A collection of [dev container Features](https://containers.dev/implementors/fea
 | [`copilot`](src/copilot/README.md) | [GitHub Copilot CLI](https://github.com/github/copilot-cli) | `ghcr.io/<owner>/devcontainer-feature-ai-assistant/copilot` |
 | [`cursor`](src/cursor/README.md) | [Cursor CLI](https://cursor.com/) | `ghcr.io/<owner>/devcontainer-feature-ai-assistant/cursor` |
 | [`opencode`](src/opencode/README.md) | [OpenCode](https://opencode.ai/) | `ghcr.io/<owner>/devcontainer-feature-ai-assistant/opencode` |
-| [`t3`](src/t3/README.md) | [t3 CLI](https://t3.chat/) | `ghcr.io/<owner>/devcontainer-feature-ai-assistant/t3` |
+| [`t3`](src/t3/README.md) | [T3 Code](https://github.com/pingdotgg/t3code) | `ghcr.io/<owner>/devcontainer-feature-ai-assistant/t3` |
 
 Replace `<owner>` with the GitHub username or org that owns this repo.
 
@@ -106,7 +106,7 @@ No options.
 
 ### `t3` — t3 CLI
 
-Installs the [t3](https://t3.chat/) CLI globally via npm and writes a pre-seeded `settings.json` to `/usr/local/share/t3-devcontainer/settings.json`. Your container's `postStartCommand` can copy or symlink this file to the path t3 expects.
+Installs the [T3 Code](https://github.com/pingdotgg/t3code) CLI globally via npm and writes a pre-seeded `settings.json` to `/usr/local/share/t3-devcontainer/settings.json`. Your container's `postStartCommand` can copy or symlink this file to the path t3 expects.
 
 ```jsonc
 "ghcr.io/<owner>/devcontainer-feature-ai-assistant/t3:1": {
