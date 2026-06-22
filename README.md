@@ -150,7 +150,7 @@ Features are independent and compose freely. A typical full-stack AI setup:
 ### One-time setup
 
 1. Fork or push this repo to GitHub.
-2. In **Settings → Actions → General**, enable **Read and write permissions** for the `GITHUB_TOKEN`.
+2. In **Settings → Actions → General**, enable **Read and write permissions** for the `GITHUB_TOKEN` (the release workflow needs `packages: write` and `contents: write`).
 3. If the release workflow cannot set package visibility via the API, open each package under **Packages**, go to **Package settings**, and set visibility to **Public** (required for unauthenticated `devcontainer` pulls).
 
 ### Publish features
