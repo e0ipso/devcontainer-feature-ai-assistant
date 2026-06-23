@@ -31,7 +31,9 @@ Replace `<owner>` with the GitHub user or org that publishes this collection. Pi
 
 ## Options
 
-None.
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `updateOnPostStart` | `boolean` | `true` | Re-run the Claude Code installer during the dev container `postStart` phase to update to the latest version. |
 
 ## After the container starts
 

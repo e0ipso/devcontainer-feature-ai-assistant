@@ -30,7 +30,9 @@ Replace `<owner>` with the GitHub user or org that publishes this collection.
 
 ## Options
 
-None.
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `updateOnPostStart` | `boolean` | `true` | Run `npm install -g @openai/codex` during the dev container `postStart` phase to update to the latest version. |
 
 ## Authentication
 

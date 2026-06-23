@@ -9,6 +9,9 @@ set -euo pipefail
 USERNAME="${_REMOTE_USER:-node}"
 USER_HOME="${_REMOTE_USER_HOME:-/home/${USERNAME}}"
 NPM_PREFIX="/usr/local/share/npm-global"
+UPDATE_ON_POST_START="${UPDATEONPOSTSTART:-false}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+UPDATE_SCRIPT_DIR="/usr/local/share/devcontainer-feature-ai-assistant/copilot"
 
 # Ensure the build prerequisites exist (the node base image already has these,
 # but a Feature should not assume its base).
@@ -30,4 +33,9 @@ run_as_user() {
 
 echo "==> Installing GitHub Copilot CLI"
 run_as_user 'npm install -g @github/copilot'
+
+if [ "${UPDATE_ON_POST_START}" = "true" ]; then
+  install -Dm 0755 "${SCRIPT_DIR}/update.sh" "${UPDATE_SCRIPT_DIR}/update.sh"
+fi
+
 echo "==> GitHub Copilot CLI installed."

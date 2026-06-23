@@ -12,5 +12,6 @@ set -e
 source dev-container-features-test-lib
 
 check "copilot binary exists" bash -c "command -v copilot"
+check "post-start update script present by default" test -x /usr/local/share/devcontainer-feature-ai-assistant/copilot/update.sh
 
 reportResults

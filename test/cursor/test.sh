@@ -12,5 +12,6 @@ set -e
 source dev-container-features-test-lib
 
 check "agent binary exists" bash -c "command -v agent"
+check "post-start update script present by default" test -x /usr/local/share/devcontainer-feature-ai-assistant/cursor/update.sh
 
 reportResults

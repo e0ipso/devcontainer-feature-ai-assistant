@@ -52,7 +52,11 @@ Installs the [Claude Code](https://claude.ai/) CLI (`claude`) via the official s
 "ghcr.io/<owner>/devcontainer-feature-ai-assistant/claude:1": {}
 ```
 
-No options. After the container starts, run `claude` to authenticate interactively.
+After the container starts, run `claude` to authenticate interactively.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `updateOnPostStart` | `boolean` | `true` | Re-run the Claude Code installer during `postStart` to update to the latest version. |
 
 ---
 
@@ -64,7 +68,11 @@ Installs the [Codex CLI](https://github.com/openai/codex) (`codex`) via `npm ins
 "ghcr.io/<owner>/devcontainer-feature-ai-assistant/codex:1": {}
 ```
 
-No options. Set `OPENAI_API_KEY` in `remoteEnv`, or run `codex` interactively after the container starts to sign in.
+Set `OPENAI_API_KEY` in `remoteEnv`, or run `codex` interactively after the container starts to sign in.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `updateOnPostStart` | `boolean` | `true` | Run `npm install -g @openai/codex` during `postStart` to update to the latest version. |
 
 ---
 
@@ -76,7 +84,11 @@ Installs the [`@github/copilot`](https://www.npmjs.com/package/@github/copilot) 
 "ghcr.io/<owner>/devcontainer-feature-ai-assistant/copilot:1": {}
 ```
 
-No options. Requires Node.js in the base image. Authenticate with GitHub (`gh auth login` on the host, or inside the container). Optionally bind-mount `~/.config/gh` to reuse host credentials.
+Requires Node.js in the base image. Authenticate with GitHub (`gh auth login` on the host, or inside the container). Optionally bind-mount `~/.config/gh` to reuse host credentials.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `updateOnPostStart` | `boolean` | `true` | Run `npm install -g @github/copilot` during `postStart` to update to the latest version. |
 
 ---
 
@@ -88,7 +100,11 @@ Installs the [Cursor](https://cursor.com/) agentic CLI via the official shell in
 "ghcr.io/<owner>/devcontainer-feature-ai-assistant/cursor:1": {}
 ```
 
-No options. After the container starts, run `agent login` to authenticate interactively, or set `CURSOR_API_KEY` in `remoteEnv`.
+After the container starts, run `agent login` to authenticate interactively, or set `CURSOR_API_KEY` in `remoteEnv`.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `updateOnPostStart` | `boolean` | `true` | Re-run the Cursor installer during `postStart` to update to the latest version. |
 
 ---
 
@@ -100,7 +116,11 @@ Installs [OpenCode](https://opencode.ai/) (`opencode`) via `npm install -g openc
 "ghcr.io/<owner>/devcontainer-feature-ai-assistant/opencode:1": {}
 ```
 
-No options. After the container starts, run `opencode` to authenticate interactively.
+After the container starts, run `opencode` to authenticate interactively.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `updateOnPostStart` | `boolean` | `true` | Run `npm install -g opencode-ai` during `postStart` to update to the latest version. |
 
 ---
 

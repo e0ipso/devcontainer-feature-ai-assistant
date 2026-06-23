@@ -1,0 +1,10 @@
+{
+  "post_start_update_disabled": {
+    "image": "node:24",
+    "features": {
+      "codex": {
+        "updateOnPostStart": false
+      }
+    }
+  }
+}
