@@ -10,6 +10,7 @@ set -euo pipefail
 USERNAME="${_REMOTE_USER:-node}"
 USER_HOME="${_REMOTE_USER_HOME:-/home/${USERNAME}}"
 NPM_PREFIX="/usr/local/share/npm-global"
+OPENCODE_LINK="/usr/local/share/opencode-bin"
 
 # Ensure the build prerequisites exist (the node base image already has these,
 # but a Feature should not assume its base).
@@ -42,7 +43,28 @@ link_user_bins_to_npm_prefix() {
   done
 }
 
+link_opencode_bin_dir() {
+  local opencode_bin="${USER_HOME}/.opencode/bin/opencode"
+  if [ ! -x "${opencode_bin}" ]; then
+    echo "ERROR: OpenCode binary not found at ${opencode_bin}" >&2
+    exit 1
+  fi
+
+  ln -sfn "${USER_HOME}/.opencode/bin" "${OPENCODE_LINK}"
+}
+
+verify_opencode_on_path() {
+  local feature_path="${NPM_PREFIX}/bin:${OPENCODE_LINK}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+  if ! PATH="${feature_path}" /bin/sh -c 'command -v opencode' >/dev/null 2>&1; then
+    echo "ERROR: opencode is not reachable from /bin/sh (postStartCommand PATH)" >&2
+    exit 1
+  fi
+}
+
 echo "==> Installing OpenCode"
 run_as_user 'curl -fsSL https://opencode.ai/install | bash'
 link_user_bins_to_npm_prefix
+link_opencode_bin_dir
+verify_opencode_on_path
 echo "==> OpenCode installed."

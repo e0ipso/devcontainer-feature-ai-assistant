@@ -25,8 +25,8 @@ Replace `<owner>` with the GitHub user or org that publishes this collection.
 
 - Binary: `opencode`
 - Install method: `https://opencode.ai/install` (runs as the remote user)
-- Location: `~/.opencode/bin/opencode`, symlinked into `/usr/local/share/npm-global/bin` so it is on `PATH` for non-login shells (including `postStartCommand`)
-- `PATH` is set automatically via feature `containerEnv`
+- Location: `~/.opencode/bin/opencode` (where the official installer puts the binary)
+- `PATH` prepends `/usr/local/share/opencode-bin` (symlink to `~/.opencode/bin`) and `/usr/local/share/npm-global/bin` via feature `containerEnv`
 
 ## Options
 
