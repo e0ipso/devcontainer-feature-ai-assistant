@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "kk-add": {
+      "source": "e0ipso/kenkeep",
+      "sourceType": "github",
+      "skillPath": ".cursor/skills/kk-add/SKILL.md",
+      "computedHash": "a028e96716e8226206706660babbf9ce734c15777217c4e635f6f62d90f3bc4a"
+    },
+    "kk-bootstrap": {
+      "source": "e0ipso/kenkeep",
+      "sourceType": "github",
+      "skillPath": ".cursor/skills/kk-bootstrap/SKILL.md",
+      "computedHash": "07130ea1c3dd773d110ad4f701b951810da674d941c81eea22553d786791a85e"
+    },
+    "kk-curate": {
+      "source": "e0ipso/kenkeep",
+      "sourceType": "github",
+      "skillPath": ".cursor/skills/kk-curate/SKILL.md",
+      "computedHash": "a0a953e8c6edbee865625a5df1343e23a0fa422a7a6586cbeb75419c68410ac7"
+    },
+    "kk-migrate": {
+      "source": "e0ipso/kenkeep",
+      "sourceType": "github",
+      "skillPath": ".cursor/skills/kk-migrate/SKILL.md",
+      "computedHash": "8112a2ef9cbc8d1dfceb9c801eb0566fd6296c891df82bbef0639d97101201c2"
+    },
+    "kk-session-extract": {
+      "source": "e0ipso/kenkeep",
+      "sourceType": "github",
+      "skillPath": ".cursor/skills/kk-session-extract/SKILL.md",
+      "computedHash": "3f9680d452cc2139ec2917eece8eacf39683a1912f9c2b63d92b1a0229450c90"
+    }
+  }
+}
