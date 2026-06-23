@@ -34,7 +34,7 @@ Add a `features` block to your project's `.devcontainer/devcontainer.json`:
 }
 ```
 
-> **Node requirement.** The `codex`, `copilot`, and `t3` features install via npm and require Node.js in the base image (or the `ghcr.io/devcontainers/features/node` feature installed before them). The `claude`, `cursor`, and `opencode` features use shell installers that also declare `installsAfter: node` — use a Node base image or add the Node feature when composing with other features.
+> **Node requirement.** The `codex`, `copilot`, `opencode`, and `t3` features install via npm and require Node.js in the base image (or the `ghcr.io/devcontainers/features/node` feature installed before them). The `claude` and `cursor` features use shell installers that also declare `installsAfter: node` — use a Node base image or add the Node feature when composing with other features.
 
 ### Recommended base image
 
@@ -94,7 +94,7 @@ No options. After the container starts, run `agent login` to authenticate intera
 
 ### `opencode` — OpenCode CLI
 
-Installs [OpenCode](https://opencode.ai/) (`opencode`) via the official shell installer.
+Installs [OpenCode](https://opencode.ai/) (`opencode`) via `npm install -g opencode-ai`. Requires Node.js in the base image.
 
 ```jsonc
 "ghcr.io/<owner>/devcontainer-feature-ai-assistant/opencode:1": {}

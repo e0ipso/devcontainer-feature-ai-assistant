@@ -1,6 +1,6 @@
 # OpenCode CLI (`opencode`)
 
-Installs the [OpenCode](https://opencode.ai/) CLI via the official shell installer.
+Installs the [OpenCode](https://opencode.ai/) CLI via the [`opencode-ai`](https://www.npmjs.com/package/opencode-ai) npm package.
 
 ## Usage
 
@@ -24,9 +24,9 @@ Replace `<owner>` with the GitHub user or org that publishes this collection.
 ## What it installs
 
 - Binary: `opencode`
-- Install method: `https://opencode.ai/install` (runs as the remote user)
-- Location: `~/.opencode/bin/opencode` (where the official installer puts the binary)
-- `PATH` prepends `/usr/local/share/opencode-bin` (symlink to `~/.opencode/bin`) and `/usr/local/share/npm-global/bin` via feature `containerEnv`
+- Install method: `npm install -g opencode-ai`
+- Location: `/usr/local/share/npm-global/bin/opencode`
+- `PATH` prepends `/usr/local/share/npm-global/bin` via feature `containerEnv`
 
 ## Options
 
