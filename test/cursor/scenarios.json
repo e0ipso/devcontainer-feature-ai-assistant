@@ -12,5 +12,19 @@
     "features": {
       "cursor": {}
     }
+  },
+  "seed_credentials": {
+    "image": "node:24",
+    "features": {
+      "cursor": {}
+    }
+  },
+  "seed_credentials_disabled": {
+    "image": "node:24",
+    "features": {
+      "cursor": {
+        "seedCredentials": false
+      }
+    }
   }
 }

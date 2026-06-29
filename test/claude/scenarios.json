@@ -12,5 +12,19 @@
     "features": {
       "claude": {}
     }
+  },
+  "seed_credentials": {
+    "image": "node:24",
+    "features": {
+      "claude": {}
+    }
+  },
+  "seed_credentials_disabled": {
+    "image": "node:24",
+    "features": {
+      "claude": {
+        "seedCredentials": false
+      }
+    }
   }
 }

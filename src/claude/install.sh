@@ -12,6 +12,7 @@ USER_HOME="${_REMOTE_USER_HOME:-/home/${USERNAME}}"
 NPM_PREFIX="/usr/local/share/npm-global"
 UPDATE_ON_POST_START="${UPDATEONPOSTSTART:-false}"
 SEED_CONFIG="${SEEDCONFIG:-true}"
+SEED_CREDENTIALS="${SEEDCREDENTIALS:-true}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FEATURE_DIR="/usr/local/share/devcontainer-feature-ai-assistant/claude"
 
@@ -54,6 +55,10 @@ fi
 if [ "${SEED_CONFIG}" = "true" ]; then
   install -Dm 0755 "${SCRIPT_DIR}/seed-config.sh" "${FEATURE_DIR}/seed-config.sh"
   install -Dm 0644 "${SCRIPT_DIR}/defaults/settings.json" "${FEATURE_DIR}/settings.json"
+fi
+
+if [ "${SEED_CREDENTIALS}" = "true" ]; then
+  install -Dm 0755 "${SCRIPT_DIR}/seed-credentials.sh" "${FEATURE_DIR}/seed-credentials.sh"
 fi
 
 echo "==> Claude Code installed."
