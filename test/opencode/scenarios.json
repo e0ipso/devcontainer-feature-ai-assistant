@@ -12,5 +12,19 @@
     "features": {
       "opencode": {}
     }
+  },
+  "seed_credentials": {
+    "image": "node:24",
+    "features": {
+      "opencode": {}
+    }
+  },
+  "seed_credentials_disabled": {
+    "image": "node:24",
+    "features": {
+      "opencode": {
+        "seedCredentials": false
+      }
+    }
   }
 }

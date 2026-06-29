@@ -13,12 +13,17 @@
       "type": "boolean",
       "default": true,
       "description": "Seed ~/.config/opencode/opencode.json from a host mount (~/.cred-seed/opencode/opencode.json) or the image-baked default on first start only."
+    },
+    "seedCredentials": {
+      "type": "boolean",
+      "default": true,
+      "description": "Seed ~/.config/opencode/auth.json from a host mount (~/.cred-seed/opencode/auth.json) on first start only. No-op when the seed file is absent."
     }
   },
   "containerEnv": {
     "PATH": "/usr/local/share/npm-global/bin:$PATH"
   },
-  "postStartCommand": "d=/usr/local/share/devcontainer-feature-ai-assistant/opencode; for s in update.sh seed-config.sh; do f=\"$d/$s\"; if [ -x \"$f\" ]; then \"$f\"; fi; done",
+  "postStartCommand": "d=/usr/local/share/devcontainer-feature-ai-assistant/opencode; for s in update.sh seed-config.sh seed-credentials.sh; do f=\"$d/$s\"; if [ -x \"$f\" ]; then \"$f\"; fi; done",
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils",
     "ghcr.io/devcontainers/features/node",

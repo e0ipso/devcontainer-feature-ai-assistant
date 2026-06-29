@@ -13,12 +13,17 @@
       "type": "boolean",
       "default": true,
       "description": "Seed ~/.cursor/cli-config.json from a host mount (~/.cred-seed/cursor/cli-config.json) or the image-baked default on first start only."
+    },
+    "seedCredentials": {
+      "type": "boolean",
+      "default": true,
+      "description": "Seed ~/.cursor/auth.json from a host mount (~/.cred-seed/cursor/auth.json) on first start only. No-op when the seed file is absent."
     }
   },
   "containerEnv": {
     "PATH": "/usr/local/share/npm-global/bin:$PATH"
   },
-  "postStartCommand": "d=/usr/local/share/devcontainer-feature-ai-assistant/cursor; for s in update.sh seed-config.sh; do f=\"$d/$s\"; if [ -x \"$f\" ]; then \"$f\"; fi; done",
+  "postStartCommand": "d=/usr/local/share/devcontainer-feature-ai-assistant/cursor; for s in update.sh seed-config.sh seed-credentials.sh; do f=\"$d/$s\"; if [ -x \"$f\" ]; then \"$f\"; fi; done",
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils",
     "ghcr.io/devcontainers/features/node",

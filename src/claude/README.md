@@ -35,6 +35,7 @@ Replace `<owner>` with the GitHub user or org that publishes this collection. Pi
 | ------ | ---- | ------- | ----------- |
 | `updateOnPostStart` | `boolean` | `true` | Re-run the Claude Code installer during the dev container `postStart` phase to update to the latest version. |
 | `seedConfig` | `boolean` | `true` | Seed `~/.claude/settings.json` on first start only (see [Configuration seeding](#configuration-seeding)). |
+| `seedCredentials` | `boolean` | `true` | Seed `~/.claude/.credentials.json` from a host mount on first start only (see [Credential seeding](#credential-seeding)). |
 
 ## Configuration seeding
 
@@ -47,9 +48,27 @@ Source precedence:
 
 The seeded file is created with mode `600`. Set `"seedConfig": false` to disable seeding.
 
+## Credential seeding
+
+On `postStart`, when `seedCredentials` is enabled, the feature copies the OAuth credentials file into `~/.claude/.credentials.json` **only if that file does not already exist** and a host seed is present. No baked default is used — if `~/.cred-seed/claude/.credentials.json` is absent the step is silently skipped.
+
+To pre-authenticate the container without running `claude` interactively, bind-mount your host credentials directory:
+
+```jsonc
+{
+  "mounts": [
+    "source=${localEnv:HOME}/.cred-seed,target=/home/node/.cred-seed,type=bind,consistency=cached,readonly"
+  ]
+}
+```
+
+Then place a copy of `~/.claude/.credentials.json` from your host at `~/.cred-seed/claude/.credentials.json`.
+
+The seeded file is created with mode `600`. Set `"seedCredentials": false` to disable.
+
 ## After the container starts
 
-Run `claude` and authenticate interactively.
+Run `claude` and authenticate interactively, or pre-authenticate via [Credential seeding](#credential-seeding).
 
 ## Local development
 

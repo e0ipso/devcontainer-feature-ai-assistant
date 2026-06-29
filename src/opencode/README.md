@@ -34,6 +34,7 @@ Replace `<owner>` with the GitHub user or org that publishes this collection.
 | ------ | ---- | ------- | ----------- |
 | `updateOnPostStart` | `boolean` | `true` | Run `npm install -g opencode-ai` during the dev container `postStart` phase to update to the latest version. |
 | `seedConfig` | `boolean` | `true` | Seed `~/.config/opencode/opencode.json` on first start only (see [Configuration seeding](#configuration-seeding)). |
+| `seedCredentials` | `boolean` | `true` | Seed `~/.config/opencode/auth.json` from a host mount on first start only (see [Credential seeding](#credential-seeding)). |
 
 ## Configuration seeding
 
@@ -46,9 +47,17 @@ Source precedence:
 
 The seeded file is created with mode `600`. Set `"seedConfig": false` to disable seeding.
 
+## Credential seeding
+
+On `postStart`, when `seedCredentials` is enabled, the feature copies the provider auth file into `~/.config/opencode/auth.json` **only if that file does not already exist** and a host seed is present. No baked default is used — if `~/.cred-seed/opencode/auth.json` is absent the step is silently skipped.
+
+To pre-authenticate, bind-mount your host credentials directory and place your auth token at `~/.cred-seed/opencode/auth.json`.
+
+The seeded file is created with mode `600`. Set `"seedCredentials": false` to disable.
+
 ## Authentication
 
-Run `opencode` after the container starts to sign in interactively.
+Run `opencode` after the container starts to sign in interactively, or pre-authenticate via [Credential seeding](#credential-seeding).
 
 ## Verify
 

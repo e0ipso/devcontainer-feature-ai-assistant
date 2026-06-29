@@ -20,5 +20,19 @@
         "seedConfig": false
       }
     }
+  },
+  "seed_credentials": {
+    "image": "node:24",
+    "features": {
+      "codex": {}
+    }
+  },
+  "seed_credentials_disabled": {
+    "image": "node:24",
+    "features": {
+      "codex": {
+        "seedCredentials": false
+      }
+    }
   }
 }
