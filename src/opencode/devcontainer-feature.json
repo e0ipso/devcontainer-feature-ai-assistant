@@ -1,6 +1,6 @@
 {
   "id": "opencode",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "name": "OpenCode CLI",
   "description": "Installs the OpenCode CLI into the dev container.",
   "options": {
@@ -8,12 +8,17 @@
       "type": "boolean",
       "default": true,
       "description": "Run 'npm install -g opencode-ai' during the dev container postStart phase to update to the latest version."
+    },
+    "seedConfig": {
+      "type": "boolean",
+      "default": true,
+      "description": "Seed ~/.config/opencode/opencode.json from a host mount (~/.cred-seed/opencode/opencode.json) or the image-baked default on first start only."
     }
   },
   "containerEnv": {
     "PATH": "/usr/local/share/npm-global/bin:$PATH"
   },
-  "postStartCommand": "if [ -x /usr/local/share/devcontainer-feature-ai-assistant/opencode/update.sh ]; then /usr/local/share/devcontainer-feature-ai-assistant/opencode/update.sh; fi",
+  "postStartCommand": "d=/usr/local/share/devcontainer-feature-ai-assistant/opencode; for s in update.sh seed-config.sh; do f=\"$d/$s\"; if [ -x \"$f\" ]; then \"$f\"; fi; done",
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils",
     "ghcr.io/devcontainers/features/node",

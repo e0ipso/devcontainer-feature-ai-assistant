@@ -1,6 +1,6 @@
 {
   "id": "t3",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "t3 CLI",
   "description": "Installs the t3 CLI globally via npm and seeds server settings derived from the T3 Code ServerSettings schema.",
   "options": {
@@ -144,11 +144,17 @@
       "type": "string",
       "default": "",
       "description": "OpenCode server password. Stored in plain text on disk."
+    },
+    "seedConfig": {
+      "type": "boolean",
+      "default": true,
+      "description": "Seed $T3CODE_HOME/userdata/settings.json from a host mount (~/.cred-seed/t3/settings.json) or the image-baked default on first start only."
     }
   },
   "containerEnv": {
     "PATH": "/usr/local/share/npm-global/bin:$PATH"
   },
+  "postStartCommand": "d=/usr/local/share/devcontainer-feature-ai-assistant/t3; f=\"$d/seed-config.sh\"; if [ -x \"$f\" ]; then \"$f\"; fi",
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils",
     "ghcr.io/devcontainers/features/node"

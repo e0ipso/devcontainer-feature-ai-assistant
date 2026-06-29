@@ -11,8 +11,9 @@ USERNAME="${_REMOTE_USER:-node}"
 USER_HOME="${_REMOTE_USER_HOME:-/home/${USERNAME}}"
 NPM_PREFIX="/usr/local/share/npm-global"
 UPDATE_ON_POST_START="${UPDATEONPOSTSTART:-false}"
+SEED_CONFIG="${SEEDCONFIG:-true}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-UPDATE_SCRIPT_DIR="/usr/local/share/devcontainer-feature-ai-assistant/cursor"
+FEATURE_DIR="/usr/local/share/devcontainer-feature-ai-assistant/cursor"
 
 # Ensure the build prerequisites exist (the node base image already has these,
 # but a Feature should not assume its base).
@@ -47,7 +48,12 @@ run_as_user 'curl https://cursor.com/install -fsS | bash'
 link_user_local_bins_to_npm_prefix
 
 if [ "${UPDATE_ON_POST_START}" = "true" ]; then
-  install -Dm 0755 "${SCRIPT_DIR}/update.sh" "${UPDATE_SCRIPT_DIR}/update.sh"
+  install -Dm 0755 "${SCRIPT_DIR}/update.sh" "${FEATURE_DIR}/update.sh"
+fi
+
+if [ "${SEED_CONFIG}" = "true" ]; then
+  install -Dm 0755 "${SCRIPT_DIR}/seed-config.sh" "${FEATURE_DIR}/seed-config.sh"
+  install -Dm 0644 "${SCRIPT_DIR}/defaults/cli-config.json" "${FEATURE_DIR}/cli-config.json"
 fi
 
 echo "==> Cursor CLI installed."

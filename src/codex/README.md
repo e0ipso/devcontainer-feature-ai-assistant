@@ -33,6 +33,18 @@ Replace `<owner>` with the GitHub user or org that publishes this collection.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `updateOnPostStart` | `boolean` | `true` | Run `npm install -g @openai/codex` during the dev container `postStart` phase to update to the latest version. |
+| `seedConfig` | `boolean` | `true` | Seed `~/.codex/config.toml` on first start only (see [Configuration seeding](#configuration-seeding)). |
+
+## Configuration seeding
+
+On `postStart`, when `seedConfig` is enabled, the feature copies a config file into `~/.codex/config.toml` **only if that file does not already exist**, so the tool can drift afterward.
+
+Source precedence:
+
+1. Host seed: `~/.cred-seed/codex/config.toml` (bind-mount from your machine)
+2. Image-baked default: `/usr/local/share/devcontainer-feature-ai-assistant/codex/config.toml`
+
+The seeded file is created with mode `600`. Set `"seedConfig": false` to disable seeding.
 
 ## Authentication
 

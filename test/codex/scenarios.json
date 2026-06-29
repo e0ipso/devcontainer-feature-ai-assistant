@@ -6,5 +6,19 @@
         "updateOnPostStart": false
       }
     }
+  },
+  "seed_config": {
+    "image": "node:24",
+    "features": {
+      "codex": {}
+    }
+  },
+  "seed_config_disabled": {
+    "image": "node:24",
+    "features": {
+      "codex": {
+        "seedConfig": false
+      }
+    }
   }
 }

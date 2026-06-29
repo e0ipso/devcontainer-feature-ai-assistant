@@ -34,6 +34,18 @@ Replace `<owner>` with the GitHub user or org that publishes this collection. Pi
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `updateOnPostStart` | `boolean` | `true` | Re-run the Claude Code installer during the dev container `postStart` phase to update to the latest version. |
+| `seedConfig` | `boolean` | `true` | Seed `~/.claude/settings.json` on first start only (see [Configuration seeding](#configuration-seeding)). |
+
+## Configuration seeding
+
+On `postStart`, when `seedConfig` is enabled, the feature copies a config file into `~/.claude/settings.json` **only if that file does not already exist**, so the tool can drift afterward.
+
+Source precedence:
+
+1. Host seed: `~/.cred-seed/claude/settings.json` (bind-mount from your machine)
+2. Image-baked default: `/usr/local/share/devcontainer-feature-ai-assistant/claude/settings.json`
+
+The seeded file is created with mode `600`. Set `"seedConfig": false` to disable seeding.
 
 ## After the container starts
 

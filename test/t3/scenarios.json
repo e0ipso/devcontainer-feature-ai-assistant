@@ -8,5 +8,11 @@
         "enableAssistantStreaming": true
       }
     }
+  },
+  "seed_config": {
+    "image": "node:24",
+    "features": {
+      "t3": {}
+    }
   }
 }
