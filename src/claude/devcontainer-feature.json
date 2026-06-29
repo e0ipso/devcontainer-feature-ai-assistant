@@ -1,6 +1,6 @@
 {
   "id": "claude",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "name": "Claude Code CLI",
   "description": "Installs the Claude Code CLI into the dev container.",
   "options": {
@@ -8,12 +8,17 @@
       "type": "boolean",
       "default": true,
       "description": "Re-run the Claude Code installer during the dev container postStart phase to update to the latest version."
+    },
+    "seedConfig": {
+      "type": "boolean",
+      "default": true,
+      "description": "Seed ~/.claude/settings.json from a host mount (~/.cred-seed/claude/settings.json) or the image-baked default on first start only."
     }
   },
   "containerEnv": {
     "PATH": "/usr/local/share/npm-global/bin:$PATH"
   },
-  "postStartCommand": "if [ -x /usr/local/share/devcontainer-feature-ai-assistant/claude/update.sh ]; then /usr/local/share/devcontainer-feature-ai-assistant/claude/update.sh; fi",
+  "postStartCommand": "d=/usr/local/share/devcontainer-feature-ai-assistant/claude; for s in update.sh seed-config.sh; do f=\"$d/$s\"; if [ -x \"$f\" ]; then \"$f\"; fi; done",
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils",
     "ghcr.io/devcontainers/features/node",

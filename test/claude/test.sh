@@ -15,5 +15,7 @@ source dev-container-features-test-lib
 check "claude binary exists" bash -c "command -v claude"
 check "claude --version exits cleanly" bash -c "claude --version"
 check "post-start update script present by default" test -x /usr/local/share/devcontainer-feature-ai-assistant/claude/update.sh
+check "seed-config script present by default" test -x /usr/local/share/devcontainer-feature-ai-assistant/claude/seed-config.sh
+check "baked default settings present" test -f /usr/local/share/devcontainer-feature-ai-assistant/claude/settings.json
 
 reportResults

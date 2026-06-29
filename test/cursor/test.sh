@@ -13,5 +13,7 @@ source dev-container-features-test-lib
 
 check "agent binary exists" bash -c "command -v agent"
 check "post-start update script present by default" test -x /usr/local/share/devcontainer-feature-ai-assistant/cursor/update.sh
+check "seed-config script present by default" test -x /usr/local/share/devcontainer-feature-ai-assistant/cursor/seed-config.sh
+check "baked default cli-config present" test -f /usr/local/share/devcontainer-feature-ai-assistant/cursor/cli-config.json
 
 reportResults

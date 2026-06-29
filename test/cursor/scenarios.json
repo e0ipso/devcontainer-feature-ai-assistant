@@ -6,5 +6,11 @@
         "updateOnPostStart": false
       }
     }
+  },
+  "seed_config": {
+    "image": "node:24",
+    "features": {
+      "cursor": {}
+    }
   }
 }

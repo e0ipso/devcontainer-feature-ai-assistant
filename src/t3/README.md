@@ -61,7 +61,7 @@ Point OpenCode at an existing server:
 ## What the feature does at build time
 
 - Runs `npm install -g t3@<version>` as the remote user into `/usr/local/share/npm-global/bin`
-- Writes flattened settings to `/usr/local/share/t3-devcontainer/settings.json`
+- Writes flattened settings to `/usr/local/share/devcontainer-feature-ai-assistant/t3/settings.json` (and mirrors to `/usr/local/share/t3-devcontainer/settings.json` for compatibility)
 - Sets `PATH` via feature `containerEnv`
 - t3 applies its own defaults for any omitted or empty fields at runtime
 
@@ -71,7 +71,7 @@ The authoritative option list and defaults live in [`devcontainer-feature.json`]
 
 | Group | Options |
 | ----- | ------- |
-| **General** | `version`, `enableAssistantStreaming`, `enableProviderUpdateChecks`, `automaticGitFetchInterval`, `defaultThreadEnvMode` (`"local"` or `"worktree"`), `newWorktreesStartFromOrigin`, `addProjectBaseDirectory` |
+| **General** | `version`, `enableAssistantStreaming`, `enableProviderUpdateChecks`, `automaticGitFetchInterval`, `defaultThreadEnvMode` (`"local"` or `"worktree"`), `newWorktreesStartFromOrigin`, `addProjectBaseDirectory`, `seedConfig` |
 | **Model** | `textGenerationModelSelectionInstanceId`, `textGenerationModelSelectionModel` |
 | **Observability** | `observabilityOtlpTracesUrl`, `observabilityOtlpMetricsUrl` |
 | **Providers** | `providersCodex*`, `providersClaudeAgent*`, `providersCursor*`, `providersGrok*`, `providersOpenCode*` |
@@ -84,7 +84,14 @@ Non-obvious details:
 
 ## Runtime settings
 
-The build-time seed at `/usr/local/share/t3-devcontainer/settings.json` is not loaded automatically. Copy or symlink it to t3's runtime settings path (for example `$T3CODE_HOME/userdata/settings.json`) in `postStartCommand` if you want t3 to pick it up on start.
+On `postStart`, when `seedConfig` is enabled (default), the feature seeds `$T3CODE_HOME/userdata/settings.json` **only if that file does not already exist**, so t3 can drift afterward.
+
+Source precedence:
+
+1. Host seed: `~/.cred-seed/t3/settings.json` (bind-mount from your machine)
+2. Image-baked default: `/usr/local/share/devcontainer-feature-ai-assistant/t3/settings.json`
+
+The seeded file is created with mode `600`. Set `"seedConfig": false` to disable seeding.
 
 Do not bind-mount your live desktop `~/.t3/userdata/settings.json` read-only — t3 writes settings atomically, so a single-file bind mount can become stale when the host process renames over the file.
 

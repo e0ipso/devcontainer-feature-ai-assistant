@@ -6,11 +6,15 @@
 # visible at runtime instead of landing in root's home.
 set -euo pipefail
 
-DEFAULT_SETTINGS_DIR="/usr/local/share/t3-devcontainer"
+DEFAULT_SETTINGS_DIR="/usr/local/share/devcontainer-feature-ai-assistant/t3"
+LEGACY_SETTINGS_DIR="/usr/local/share/t3-devcontainer"
 USERNAME="${_REMOTE_USER:-node}"
 USER_HOME="${_REMOTE_USER_HOME:-/home/${USERNAME}}"
 NPM_PREFIX="/usr/local/share/npm-global"
 T3_VERSION="${VERSION:-latest}"
+SEED_CONFIG="${SEEDCONFIG:-true}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+FEATURE_DIR="/usr/local/share/devcontainer-feature-ai-assistant/t3"
 
 # Shared npm global prefix the remote user can write to without sudo.
 mkdir -p "${NPM_PREFIX}/bin"
@@ -20,7 +24,7 @@ echo "==> Installing t3@${T3_VERSION}"
 su - "${USERNAME}" -c \
   "export NPM_CONFIG_PREFIX='${NPM_PREFIX}' PATH=\"${NPM_PREFIX}/bin:${USER_HOME}/.local/bin:\$PATH\"; npm install -g 't3@${T3_VERSION}'"
 
-mkdir -p "${DEFAULT_SETTINGS_DIR}"
+mkdir -p "${DEFAULT_SETTINGS_DIR}" "${LEGACY_SETTINGS_DIR}"
 
 node -e "
 const fs = require('fs');
@@ -85,5 +89,10 @@ fs.writeFileSync(
 "
 
 chmod 644 "${DEFAULT_SETTINGS_DIR}/settings.json"
+install -Dm 0644 "${DEFAULT_SETTINGS_DIR}/settings.json" "${LEGACY_SETTINGS_DIR}/settings.json"
+
+if [ "${SEED_CONFIG}" = "true" ]; then
+  install -Dm 0755 "${SCRIPT_DIR}/seed-config.sh" "${FEATURE_DIR}/seed-config.sh"
+fi
 
 echo "==> t3 installed."

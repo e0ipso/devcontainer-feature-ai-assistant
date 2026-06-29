@@ -1,0 +1,3 @@
+# Default Codex CLI configuration seeded by devcontainer-feature-ai-assistant.
+# Customize after first start; seeding runs only when ~/.codex/config.toml is absent.
+# See https://github.com/openai/codex for available options.

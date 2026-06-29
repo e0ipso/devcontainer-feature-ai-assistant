@@ -57,6 +57,7 @@ After the container starts, run `claude` to authenticate interactively.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `updateOnPostStart` | `boolean` | `true` | Re-run the Claude Code installer during `postStart` to update to the latest version. |
+| `seedConfig` | `boolean` | `true` | Seed `~/.claude/settings.json` from a host mount or image-baked default on first start only. |
 
 ---
 
@@ -73,6 +74,7 @@ Set `OPENAI_API_KEY` in `remoteEnv`, or run `codex` interactively after the cont
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `updateOnPostStart` | `boolean` | `true` | Run `npm install -g @openai/codex` during `postStart` to update to the latest version. |
+| `seedConfig` | `boolean` | `true` | Seed `~/.codex/config.toml` from a host mount or image-baked default on first start only. |
 
 ---
 
@@ -105,6 +107,7 @@ After the container starts, run `agent login` to authenticate interactively, or 
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `updateOnPostStart` | `boolean` | `true` | Re-run the Cursor installer during `postStart` to update to the latest version. |
+| `seedConfig` | `boolean` | `true` | Seed `~/.cursor/cli-config.json` from a host mount or image-baked default on first start only. |
 
 ---
 
@@ -121,12 +124,13 @@ After the container starts, run `opencode` to authenticate interactively.
 | Option | Type | Default | Description |
 | ------ | ---- | ------- | ----------- |
 | `updateOnPostStart` | `boolean` | `true` | Run `npm install -g opencode-ai` during `postStart` to update to the latest version. |
+| `seedConfig` | `boolean` | `true` | Seed `~/.config/opencode/opencode.json` from a host mount or image-baked default on first start only. |
 
 ---
 
 ### `t3` — t3 CLI
 
-Installs the [T3 Code](https://github.com/pingdotgg/t3code) CLI globally via npm and writes a pre-seeded `settings.json` to `/usr/local/share/t3-devcontainer/settings.json` at build time. Copy or symlink that file to t3's runtime settings path in `postStartCommand` if needed. Requires Node.js in the base image.
+Installs the [T3 Code](https://github.com/pingdotgg/t3code) CLI globally via npm and writes a pre-seeded `settings.json` to `/usr/local/share/devcontainer-feature-ai-assistant/t3/settings.json` at build time. On `postStart`, seeds `$T3CODE_HOME/userdata/settings.json` when absent (host mount `~/.cred-seed/t3/settings.json` or the baked default). Requires Node.js in the base image.
 
 ```jsonc
 "ghcr.io/<owner>/devcontainer-feature-ai-assistant/t3:1": {
