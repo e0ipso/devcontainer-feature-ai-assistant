@@ -1,6 +1,6 @@
 {
   "id": "t3",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "name": "t3 CLI",
   "description": "Installs the t3 CLI globally via npm and seeds server settings derived from the T3 Code ServerSettings schema.",
   "options": {
@@ -8,6 +8,11 @@
       "type": "string",
       "default": "latest",
       "description": "npm dist-tag or version of t3 to install (e.g. \"latest\" or \"1.2.3\")"
+    },
+    "updateOnPostStart": {
+      "type": "boolean",
+      "default": true,
+      "description": "Run 'npm install -g t3' during the dev container postStart phase to update to the latest version."
     },
     "enableAssistantStreaming": {
       "type": "boolean",
@@ -154,7 +159,7 @@
   "containerEnv": {
     "PATH": "/usr/local/share/npm-global/bin:$PATH"
   },
-  "postStartCommand": "d=/usr/local/share/devcontainer-feature-ai-assistant/t3; f=\"$d/seed-config.sh\"; if [ -x \"$f\" ]; then \"$f\"; fi",
+  "postStartCommand": "d=/usr/local/share/devcontainer-feature-ai-assistant/t3; for s in update.sh seed-config.sh; do f=\"$d/$s\"; if [ -x \"$f\" ]; then \"$f\"; fi; done",
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils",
     "ghcr.io/devcontainers/features/node"

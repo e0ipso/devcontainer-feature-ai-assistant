@@ -1,4 +1,12 @@
 {
+  "post_start_update_disabled": {
+    "image": "node:24",
+    "features": {
+      "t3": {
+        "updateOnPostStart": false
+      }
+    }
+  },
   "with_claude_provider": {
     "image": "node:24",
     "features": {
