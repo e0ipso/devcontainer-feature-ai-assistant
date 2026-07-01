@@ -71,13 +71,14 @@ The authoritative option list and defaults live in [`devcontainer-feature.json`]
 
 | Group | Options |
 | ----- | ------- |
-| **General** | `version`, `enableAssistantStreaming`, `enableProviderUpdateChecks`, `automaticGitFetchInterval`, `defaultThreadEnvMode` (`"local"` or `"worktree"`), `newWorktreesStartFromOrigin`, `addProjectBaseDirectory`, `seedConfig` |
+| **General** | `version`, `updateOnPostStart`, `enableAssistantStreaming`, `enableProviderUpdateChecks`, `automaticGitFetchInterval`, `defaultThreadEnvMode` (`"local"` or `"worktree"`), `newWorktreesStartFromOrigin`, `addProjectBaseDirectory`, `seedConfig` |
 | **Model** | `textGenerationModelSelectionInstanceId`, `textGenerationModelSelectionModel` |
 | **Observability** | `observabilityOtlpTracesUrl`, `observabilityOtlpMetricsUrl` |
 | **Providers** | `providersCodex*`, `providersClaudeAgent*`, `providersCursor*`, `providersGrok*`, `providersOpenCode*` |
 
 Non-obvious details:
 
+- `updateOnPostStart` — when enabled (default), runs `npm install -g t3` on every `postStart` to pull the latest version, ignoring the pinned `version`. Set to `false` to keep the version installed at build time and avoid network traffic on container start.
 - `providersOpenCodeServerUrl` — leave blank to let t3 spawn the OpenCode server
 - `providersOpenCodeServerPassword` — stored in plain text on disk
 - `defaultThreadEnvMode` — must be `"local"` or `"worktree"`
